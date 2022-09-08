@@ -5,20 +5,19 @@ import com.dbexample.demo.repo.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/blog")
 public class BlogController
 {
     @Autowired
     private PostRepository postRepository;
 
 
-    @GetMapping(path = "/")
+    @GetMapping ("/main")
     public String getMainPage(Model model)
     {
         Iterable<Post> posts = postRepository.findAll();

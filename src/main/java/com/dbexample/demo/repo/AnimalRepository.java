@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface AnimalRepository extends CrudRepository<Animal, Long>
+public interface AnimalRepository extends CrudRepository<Animal, Integer>
 {
     List<Animal> findByNameContains(String name);
     List<Animal> findByName(String name);

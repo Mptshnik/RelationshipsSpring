@@ -1,14 +1,11 @@
 package com.dbexample.demo.controller;
 
-import com.dbexample.demo.model.Post;
 import com.dbexample.demo.model.User;
 import com.dbexample.demo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +15,55 @@ public class HomeController
     @Autowired
     private UserRepository userRepository;
 
+    @RequestMapping(value = "/user-info/{id}", method = RequestMethod.GET)
+    public String getUserInfo(@PathVariable("id") long id, Model model)
+    {
+        User result = userRepository
+                .findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+
+        model.addAttribute("user", result);
+
+        return "/users/users-info";
+    }
+
+    @GetMapping("/user-edit/{id}")
+    public String getUserEditPage(@PathVariable("id") long id, Model model)
+    {
+        User result = userRepository
+                .findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+
+        model.addAttribute("user", result);
+
+        return "/users/users-edit";
+    }
+
+    @RequestMapping(value = "/user-update/{id}", method = RequestMethod.POST)
+    public String updateUser(@PathVariable("id") long id,
+                             @RequestParam String firstname,
+                             @RequestParam String lastname,
+                             @RequestParam String middlename,
+                             @RequestParam int age,
+                             @RequestParam int weight,
+                             @RequestParam int height, Model model)
+    {
+        User user = new User(firstname, lastname, middlename,
+                age, height, weight);
+        user.setId(id);
+        userRepository.save(user);
+
+        return "redirect:/users";
+    }
+
+    @RequestMapping(value = "/user-delete/{id}", method = RequestMethod.GET)
+    public String deleteUser(@PathVariable("id") long id)
+    {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        userRepository.delete(user);
+
+        return "redirect:/users";
+    }
+
     @GetMapping("/users")
     public String getMainPage(Model model)
     {
@@ -25,7 +71,7 @@ public class HomeController
 
         model.addAttribute("users", users);
 
-        return "users-main";
+        return "/users/users-main";
     }
 
     @PostMapping("/create-user")
@@ -47,13 +93,13 @@ public class HomeController
     @GetMapping(path = "/new-user")
     public String getAddBlog(Model model)
     {
-        return "users-add";
+        return "/users/users-add";
     }
 
     @GetMapping("search-user")
     public String getFilter(Model model)
     {
-        return "users-search";
+        return "/users/users-search";
     }
 
     @PostMapping("/users/search-advanced")
@@ -61,7 +107,7 @@ public class HomeController
     {
         List<User> result = userRepository.findByLastname(lastname);
         model.addAttribute("result", result);
-        return "users-search";
+        return "/users/users-search";
     }
 
     @PostMapping("/users/search")
@@ -69,6 +115,6 @@ public class HomeController
     {
         List<User> result = userRepository.findByLastnameContains(lastname);
         model.addAttribute("result", result);
-        return "users-search";
+        return "/users/users-search";
     }
 }
