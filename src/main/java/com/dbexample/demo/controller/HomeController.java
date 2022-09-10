@@ -5,8 +5,11 @@ import com.dbexample.demo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import java.util.List;
 
 @Controller
@@ -38,17 +41,16 @@ public class HomeController
     }
 
     @RequestMapping(value = "/user-update/{id}", method = RequestMethod.POST)
-    public String updateUser(@PathVariable("id") long id,
-                             @RequestParam String firstname,
-                             @RequestParam String lastname,
-                             @RequestParam String middlename,
-                             @RequestParam int age,
-                             @RequestParam int weight,
-                             @RequestParam int height, Model model)
+    public String updateUser(@ModelAttribute("user") @Valid User user,
+                             BindingResult bindingResult, @PathVariable("id") long id)
     {
-        User user = new User(firstname, lastname, middlename,
-                age, height, weight);
         user.setId(id);
+
+        if(bindingResult.hasErrors())
+        {
+            return "/users/users-edit";
+        }
+
         userRepository.save(user);
 
         return "redirect:/users";
@@ -75,23 +77,18 @@ public class HomeController
     }
 
     @PostMapping("/create-user")
-    public String createNewUser(@RequestParam String firstname,
-                                @RequestParam String lastname,
-                                @RequestParam String middlename,
-                                @RequestParam int age,
-                                @RequestParam int weight,
-                                @RequestParam int height,
-                                Model model)
+    public String createNewUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult)
     {
-        User user = new User(firstname, lastname, middlename,
-                age, height, weight);
+        if (bindingResult.hasErrors()) {
+            return "/users/users-add";
+        }
         userRepository.save(user);
 
         return "redirect:/users";
     }
 
-    @GetMapping(path = "/new-user")
-    public String getAddBlog(Model model)
+    @GetMapping("/new-user")
+    public String getAddUserPage(@ModelAttribute("user") User user, Model model)
     {
         return "/users/users-add";
     }

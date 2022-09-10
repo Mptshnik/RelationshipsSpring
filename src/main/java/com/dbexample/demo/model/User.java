@@ -1,10 +1,14 @@
 package com.dbexample.demo.model;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.*;
+
 
 @Entity
 public class User
@@ -76,8 +80,35 @@ public class User
         this.weight = weight;
     }
 
-    private String firstName, lastname, middleName;
-    private int age, height, weight;
+    @NotNull
+    @NotEmpty(message = "Имя не может быть пустым")
+    @Size(min=2, max=30, message = "Имя должно находится в диапазоне от 2 до 30 символов")
+    private String firstName;
+
+    @NotNull
+    @NotEmpty(message = "Фамилия не может быть пустой")
+    @Size(min=2, max=30, message = "Фамилия должна находится в диапазоне от 2 до 30 символов")
+    private String lastname;
+
+    @NotNull
+    @NotEmpty(message = "Отчество не может быть пустым")
+    @Size(min=2, max=30, message = "Отчество должно находится в диапазоне от 2 до 30 символов")
+    private String middleName;
+
+    @NotNull(message = "Не пустое")
+    @Min(value = 18, message = "Минимальный возраст 18 лет")
+    @Max(value = 99, message = "Максимальный возраст 99 лет")
+    private int age;
+
+    @NotNull(message = "Не пустое")
+    @Min(value = 50, message = "Минимальный рост 50")
+    @Max(value = 300, message = "Максимальный рост 300")
+    private int height;
+
+    @NotNull(message = "Не пустое")
+    @Min(value = 0, message = "Минимальный вес 0")
+    @Max(value = 300, message = "Максимальный вес 300")
+    private int weight;
 
     public void setId(Long id) {
         this.id = id;
