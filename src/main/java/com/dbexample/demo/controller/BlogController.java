@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/blog")
 public class BlogController
 {
     @Autowired
     private PostRepository postRepository;
 
 
-    @GetMapping ("/main")
+    @GetMapping ("/")
     public String getMainPage(Model model)
     {
         Iterable<Post> posts = postRepository.findAll();

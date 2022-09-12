@@ -1,7 +1,7 @@
 package com.dbexample.demo.controller;
 
-import com.dbexample.demo.model.User;
-import com.dbexample.demo.repo.UserRepository;
+import com.dbexample.demo.model.Person;
+import com.dbexample.demo.repo.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,19 +9,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import java.util.List;
 
 @Controller
 public class HomeController
 {
     @Autowired
-    private UserRepository userRepository;
+    private PersonRepository personRepository;
+
+
 
     @RequestMapping(value = "/user-info/{id}", method = RequestMethod.GET)
     public String getUserInfo(@PathVariable("id") long id, Model model)
     {
-        User result = userRepository
+        Person result = personRepository
                 .findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 
         model.addAttribute("user", result);
@@ -32,7 +33,7 @@ public class HomeController
     @GetMapping("/user-edit/{id}")
     public String getUserEditPage(@PathVariable("id") long id, Model model)
     {
-        User result = userRepository
+        Person result = personRepository
                 .findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 
         model.addAttribute("user", result);
@@ -41,17 +42,17 @@ public class HomeController
     }
 
     @RequestMapping(value = "/user-update/{id}", method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute("user") @Valid User user,
+    public String updateUser(@ModelAttribute("user") @Valid Person person,
                              BindingResult bindingResult, @PathVariable("id") long id)
     {
-        user.setId(id);
+        person.setId(id);
 
         if(bindingResult.hasErrors())
         {
             return "/users/users-edit";
         }
 
-        userRepository.save(user);
+        personRepository.save(person);
 
         return "redirect:/users";
     }
@@ -59,9 +60,9 @@ public class HomeController
     @RequestMapping(value = "/user-delete/{id}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable("id") long id)
     {
-        User user = userRepository.findById(id)
+        Person person = personRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        userRepository.delete(user);
+        personRepository.delete(person);
 
         return "redirect:/users";
     }
@@ -69,7 +70,7 @@ public class HomeController
     @GetMapping("/users")
     public String getMainPage(Model model)
     {
-        Iterable<User> users = userRepository.findAll();
+        Iterable<Person> users = personRepository.findAll();
 
         model.addAttribute("users", users);
 
@@ -77,18 +78,18 @@ public class HomeController
     }
 
     @PostMapping("/create-user")
-    public String createNewUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult)
+    public String createNewUser(@ModelAttribute("user") @Valid Person person, BindingResult bindingResult)
     {
         if (bindingResult.hasErrors()) {
             return "/users/users-add";
         }
-        userRepository.save(user);
+        personRepository.save(person);
 
         return "redirect:/users";
     }
 
     @GetMapping("/new-user")
-    public String getAddUserPage(@ModelAttribute("user") User user, Model model)
+    public String getAddUserPage(@ModelAttribute("user") Person person, Model model)
     {
         return "/users/users-add";
     }
@@ -102,7 +103,7 @@ public class HomeController
     @PostMapping("/users/search-advanced")
     public String searchAdvanced(@RequestParam String lastname, Model model)
     {
-        List<User> result = userRepository.findByLastname(lastname);
+        List<Person> result = personRepository.findByLastname(lastname);
         model.addAttribute("result", result);
         return "/users/users-search";
     }
@@ -110,7 +111,7 @@ public class HomeController
     @PostMapping("/users/search")
     public String simpleSearch(@RequestParam String lastname, Model model)
     {
-        List<User> result = userRepository.findByLastnameContains(lastname);
+        List<Person> result = personRepository.findByLastnameContains(lastname);
         model.addAttribute("result", result);
         return "/users/users-search";
     }

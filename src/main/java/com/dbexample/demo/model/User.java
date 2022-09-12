@@ -1,114 +1,84 @@
 package com.dbexample.demo.model;
 
-import net.bytebuddy.implementation.bind.annotation.Default;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.GenerationType;
-import javax.validation.constraints.*;
-
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
-public class User
+public class User implements UserDetails
 {
-    public User()
-    {
-
-    }
-
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public String getLastname() {
-        return lastname;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setLastname(String lastName) {
-        this.lastname = lastName;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public String getMiddleName() {
-        return middleName;
+    @Override
+    public boolean isEnabled() {
+        return active;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public int getAge() {
-        return age;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public String getPassword() {
+        return password;
     }
 
-    public int getHeight() {
-        return height;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public boolean isActive() {
+        return active;
     }
 
-    public int getWeight() {
-        return weight;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public User(String firstName, String lastname, String middleName, int age, int height, int weight) {
-        this.firstName = firstName;
-        this.lastname = lastname;
-        this.middleName = middleName;
-        this.age = age;
-        this.height = height;
-        this.weight = weight;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    @NotNull
-    @NotEmpty(message = "Имя не может быть пустым")
-    @Size(min=2, max=30, message = "Имя должно находится в диапазоне от 2 до 30 символов")
-    private String firstName;
+    private String username;
+    private String password;
+    private boolean active;
 
-    @NotNull
-    @NotEmpty(message = "Фамилия не может быть пустой")
-    @Size(min=2, max=30, message = "Фамилия должна находится в диапазоне от 2 до 30 символов")
-    private String lastname;
-
-    @NotNull
-    @NotEmpty(message = "Отчество не может быть пустым")
-    @Size(min=2, max=30, message = "Отчество должно находится в диапазоне от 2 до 30 символов")
-    private String middleName;
-
-    @NotNull(message = "Не пустое")
-    @Min(value = 18, message = "Минимальный возраст 18 лет")
-    @Max(value = 99, message = "Максимальный возраст 99 лет")
-    private int age;
-
-    @NotNull(message = "Не пустое")
-    @Min(value = 50, message = "Минимальный рост 50")
-    @Max(value = 300, message = "Максимальный рост 300")
-    private int height;
-
-    @NotNull(message = "Не пустое")
-    @Min(value = 0, message = "Минимальный вес 0")
-    @Max(value = 300, message = "Максимальный вес 300")
-    private int weight;
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     public void setId(Long id) {
         this.id = id;
@@ -117,6 +87,4 @@ public class User
     public Long getId() {
         return id;
     }
-
-
 }

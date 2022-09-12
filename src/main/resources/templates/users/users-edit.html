@@ -12,38 +12,38 @@
 </head>
 <body>
 <div th:insert="blocks/header"></div>
-<form th:action="@{/user-update/{id}(id=${user.id})}" th:object="${user}"  method="post">
+<form th:action="@{/person-update/{id}(id=${person.id})}" th:object="${person}"  method="post">
     <div class="form-group col-sm-2">
         <label>Фамилия</label>
-        <input type="text" name="lastname" th:field="*{lastname}" th:value="${user.getLastname()}"
+        <input type="text" name="lastname" th:field="*{lastname}" th:value="${person.getLastname()}"
                class="form-control" placeholder="Введите фамилию">
         <div class="invalid" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}">Lastname error</div>
     </div>
     <div class="form-group col-sm-2">
         <label>Имя</label>
-        <input type="text" name="firstname" th:field="*{firstName}" th:value="${user.getFirstName()}"
+        <input type="text" name="firstname" th:field="*{firstName}" th:value="${person.getFirstName()}"
                class="form-control" placeholder="Введите имя">
         <div class="invalid" th:if="${#fields.hasErrors('firstName')}" th:errors="*{lastname}">Firstname error</div>
     </div>
     <div class="form-group col-sm-2">
         <label>Отчество</label>
-        <input type="text" class="form-control" th:field="*{middleName}" th:value="${user.getMiddleName()}"
+        <input type="text" class="form-control" th:field="*{middleName}" th:value="${person.getMiddleName()}"
                name="middlename" placeholder="Введите отчество">
         <div class="invalid" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}">Middlename error</div>
     </div>
     <div class="form-group col-sm-2">
         <label>Возраст</label>
-        <input type="number" class="form-control" name="age" th:field="*{age}" th:value="${user.getAge()}" placeholder="Введите возраст">
+        <input type="number" class="form-control" name="age" th:field="*{age}" th:value="${person.getAge()}" placeholder="Введите возраст">
         <div class="invalid" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</div>
     </div>
     <div class="form-group col-sm-2">
         <label>Вес</label>
-        <input type="number" class="form-control" th:default="0" name="weight" th:field="*{weight}" th:value="${user.getWeight()}" placeholder="Введите вес">
+        <input type="number" class="form-control" th:default="0" name="weight" th:field="*{weight}" th:value="${person.getWeight()}" placeholder="Введите вес">
         <div class="invalid" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">Weight error</div>
     </div>
     <div class="form-group col-sm-2">
         <label>Рост</label>
-        <input type="number" class="form-control" th:field="*{height}" th:value="${user.getHeight()}" name="height" placeholder="Введите рост">
+        <input type="number" class="form-control" th:field="*{height}" th:value="${person.getHeight()}" name="height" placeholder="Введите рост">
         <div class="invalid" th:if="${#fields.hasErrors('height')}" th:errors="*{height}">Height error</div>
     </div>
     <br>

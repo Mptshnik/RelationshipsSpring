@@ -7,7 +7,9 @@
 </head>
 <body>
 <div th:insert="blocks/header"></div>
-
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Выйти из системы"/>
+</form>
     <h1>Все статьи</h1>
     <a href="/filter">Фильтровать</a>
     <a href="/new-post">Добавить</a>

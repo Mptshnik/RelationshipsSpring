@@ -1,7 +1,6 @@
 package com.dbexample.demo.controller;
 
 import com.dbexample.demo.model.Animal;
-import com.dbexample.demo.model.User;
 import com.dbexample.demo.repo.AnimalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

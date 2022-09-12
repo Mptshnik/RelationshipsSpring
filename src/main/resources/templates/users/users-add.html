@@ -12,7 +12,7 @@
 </head>
 <body>
 <div th:insert="blocks/header"></div>
-<form th:action="${'create-user'}" th:object="${user}" method="post">
+<form th:action="${'create-person'}" th:object="${person}" method="post">
   <div class="form-group col-sm-2">
     <label>Фамилия</label>
     <input type="text" name="lastname" th:field="*{lastname}" class="form-control" placeholder="Введите фамилию">

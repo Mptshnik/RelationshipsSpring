@@ -36,13 +36,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${result}">
-        <td th:text="${user.getLastname()}"></td>
-        <td th:text="${user.getFirstName()}"></td>
-        <td th:text="${user.getMiddleName()}"></td>
-        <td th:text="${user.getAge()}"></td>
-        <td th:text="${user.getHeight()}"></td>
-        <td th:text="${user.getWeight()}"></td>
+    <tr th:each="person : ${result}">
+        <td th:text="${person.getLastname()}"></td>
+        <td th:text="${person.getFirstName()}"></td>
+        <td th:text="${person.getMiddleName()}"></td>
+        <td th:text="${person.getAge()}"></td>
+        <td th:text="${person.getHeight()}"></td>
+        <td th:text="${person.getWeight()}"></td>
     </tr>
     </tbody>
 </table>

@@ -7,7 +7,7 @@
 </head>
 <body>
 <div th:insert="blocks/header"></div>
-<div class="col-md-8" th:object="${user}" style="width: 50%; margin: 0 auto">
+<div class="col-md-8" th:object="${person}" style="width: 50%; margin: 0 auto">
     <div class="card mb-3">
         <div class="card-body">
             <div class="row">
@@ -15,7 +15,7 @@
                     <h6 class="mb-0">ФИО</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                    <div th:text="${user.getLastname() + ' ' + user.getFirstName() + ' ' + user.getMiddleName()}"></div>
+                    <div th:text="${person.getLastname() + ' ' + person.getFirstName() + ' ' + person.getMiddleName()}"></div>
                 </div>
             </div>
             <hr>
@@ -24,7 +24,7 @@
                     <h6 class="mb-0">Возраст</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                    <div th:text="${user.getAge()}"></div>
+                    <div th:text="${person.getAge()}"></div>
                 </div>
             </div>
             <hr>
@@ -33,7 +33,7 @@
                     <h6 class="mb-0">Рост</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                    <div th:text="${user.getHeight()}"></div>
+                    <div th:text="${person.getHeight()}"></div>
                 </div>
             </div>
             <hr>
@@ -42,7 +42,7 @@
                     <h6 class="mb-0">Вес</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                    <div th:text="${user.getWeight()}"></div>
+                    <div th:text="${person.getWeight()}"></div>
                 </div>
             </div>
         </div>
