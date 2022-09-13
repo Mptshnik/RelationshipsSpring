@@ -43,6 +43,11 @@
     <input class="form-control" name="height" th:field="*{height}" placeholder="Введите рост">
     <div class="invalid" th:if="${#fields.hasErrors('height')}" th:errors="*{height}">Height error</div>
   </div>
+  <div class="form-group col-sm-2" th:object="${passport}">
+    <label>Номер паспорта</label>
+    <input class="form-control" name="passport" th:field="*{number}"
+           placeholder="Введите номер паспорта">
+  </div>
   <br>
   <button type="submit" class="btn btn-primary">Добавить</button>
 </form>

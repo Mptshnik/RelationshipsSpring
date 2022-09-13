@@ -1,5 +1,6 @@
 package com.dbexample.demo.controller;
 
+import com.dbexample.demo.model.Passport;
 import com.dbexample.demo.model.Person;
 import com.dbexample.demo.repo.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,19 +78,21 @@ public class HomeController
         return "/users/users-main";
     }
 
-    @PostMapping("/create-user")
-    public String createNewUser(@ModelAttribute("user") @Valid Person person, BindingResult bindingResult)
+    @PostMapping("/create-person")
+    public String createNewUser(@ModelAttribute("user") @Valid Person person, BindingResult bindingResult,
+                                @ModelAttribute("passport") Passport passport)
     {
         if (bindingResult.hasErrors()) {
             return "/users/users-add";
         }
+        person.setPassport(passport);
         personRepository.save(person);
 
         return "redirect:/users";
     }
 
-    @GetMapping("/new-user")
-    public String getAddUserPage(@ModelAttribute("user") Person person, Model model)
+    @GetMapping("/new-person")
+    public String getAddUserPage(@ModelAttribute("person") Person person, @ModelAttribute("passport") Passport passport)
     {
         return "/users/users-add";
     }

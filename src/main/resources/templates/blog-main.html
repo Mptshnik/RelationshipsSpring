@@ -16,6 +16,7 @@
     <div th:each="el : ${posts}">
         <h3 th:text="${el.getTitle()}"></h3>
         <p th:text="${el.getAnons()}"></p>
+        <p th:text="${el.getFullText()}"></p>
     </div>
 </body>
 </html>

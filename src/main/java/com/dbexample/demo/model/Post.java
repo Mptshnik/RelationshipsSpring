@@ -1,9 +1,6 @@
 package com.dbexample.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Post
@@ -16,6 +13,18 @@ public class Post
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Long getId() {
         return Id;
@@ -49,10 +58,11 @@ public class Post
         FullText = fullText;
     }
 
-    public Post(String title, String anons, String fullText) {
+    public Post(String title, String anons, String fullText, User user) {
         this.title = title;
         Anons = anons;
         FullText = fullText;
+        this.user = user;
     }
 
     private String title, Anons, FullText;

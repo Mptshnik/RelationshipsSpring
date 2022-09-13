@@ -17,6 +17,7 @@
       <th>Фамилия</th>
       <th>Имя</th>
       <th>Отчество</th>
+      <th>Паспорт</th>
       <th>Изменение</th>
       <th>Удаление</th>
       <th>Детали</th>
@@ -27,6 +28,7 @@
       <td th:text="${person.getLastname()}"></td>
       <td th:text="${person.getFirstName()}"></td>
       <td th:text="${person.getMiddleName()}"></td>
+      <td th:text="${person.getPassport().getNumber()}"></td>
       <td><a th:href="@{/person-edit/{id}(id=${person.getId()})}" class="btn btn-success">Изменить</a></td>
       <td><a th:href="@{/person-delete/{id}(id=${person.getId()})}" class="btn btn-danger">Удалить</a></td>
       <td><a th:href="@{/person-info/{id}(id=${person.getId()})}" class="btn btn-info">Подробнее</a></td>
